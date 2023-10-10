@@ -19,13 +19,13 @@ zipper([], L2, [Zipper|L2]).
 zipper(L1, [], [Zipper|L1]).
 
 
-zipper([H1|T1], [H2|T2], Zip) :- Newzip = [H1, H2], l1zip(T1,T2, Newzip).
+zipper([H1|T1], [H2|T2], Zip) :- Newzip = [H1, H2], zipHelper(T1,T2, Newzip).
 
-l1zip([], L2, [Zipper|L2]).
-l1zip(L1, [], [Zipper|L1]).
-l1zip([], [], Zipper).
+zipHelper([], L2, [Zipper|L2]).
+zipHelper(L1, [], [Zipper|L1]).
+zipHelper([], [], Zipper).
 
-l1zip([H1|T1], [H2|T2], Zip) :- append(Zip, [H1,H2], Newzip), l1zip(T1, T2, Newzip). 
+zipHelper([H1|T1], [H2|T2], Zip) :- append(Zip, [H1,H2], Newzip), zipHelper(T1, T2, Newzip). 
 
 
 
