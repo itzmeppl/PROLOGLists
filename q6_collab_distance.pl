@@ -19,3 +19,18 @@
 %%%%% SECTION: collabDistance
 %%%%% Predicate definition: collabDist(Author1, Author2, MaxDist, Authors, Articles)
 
+%%%%% SECTION: article topic
+
+articleTopic(functional_programming_in_python, programming).
+articleTopic(predictive_analytics_and_algorithmic_trading, ai).
+articleTopic(advances_in_humanoid_and_autonomous_robot_systems, ai).
+articleTopic(leveraging_unlabeled_data_for_improved_model_performance, machine_learning).
+articleTopic(techniques_for_scene_reconstruction_and_object_localization, computer_vision).
+
+
+
+%%%%% SECTION: collabDist
+% Put your rules for collabDist in this section 
+collabDist(X, Y, 0) :- X==Y, articleAuthor(Z, X).
+collabDist(X, Y, 1) :- articleAuthor(Z, X), articleAuthor(Z, Y).
+collabDist(X, Y, Z) :- Z > 1, articleAuthor(K,X), articleAuthor(K, L), M is Z - 1, collabDist(L, Y, M).
