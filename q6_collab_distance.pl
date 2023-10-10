@@ -16,21 +16,35 @@
 %% section. You may also delete your test knowledge based before submission, as we will not be marking it
 
 
-%%%%% SECTION: collabDistance
-%%%%% Predicate definition: collabDist(Author1, Author2, MaxDist, Authors, Articles)
+%%%%% SECTION: articleAuthor
+articleAuthor(article, tom).
+articleAuthor(article, jennifer).
+articleAuthor(article2, jennifer).
+articleAuthor(article2, tina).
+articleAuthor(article3, tina).
+articleAuthor(article3, jay).
+articleAuthor(article4, jay).
+articleAuthor(article4, donna).
+articleAuthor(article5, donna).
+articleAuthor(article5, tom).
+articleAuthor(article6, jennifer).
+articleAuthor(article6, jay).
+articleAuthor(article7, jay).
+articleAuthor(article7, bob).
+articleAuthor(article8, donna).
+articleAuthor(article8, bob).
 
-%%%%% SECTION: article topic
+collabDist(A1, A1, MaxDist, Authors, Articles) :- MaxDist >= 0, articleAuthor(X,A1), Authors = [A1], Articles = [X].
+collabDist(A1, A2, MaxDist, Authors, Articles) :- dist(A1, A2, MaxDist, X, Y, [], []), Authors = X, Articles = Y.
 
-articleTopic(functional_programming_in_python, programming).
-articleTopic(predictive_analytics_and_algorithmic_trading, ai).
-articleTopic(advances_in_humanoid_and_autonomous_robot_systems, ai).
-articleTopic(leveraging_unlabeled_data_for_improved_model_performance, machine_learning).
-articleTopic(techniques_for_scene_reconstruction_and_object_localization, computer_vision).
+dist(A1, A2, 1, Authors, Articles, TempAu, TempAr) :- articleAuthor(X, A1), articleAuthor(X, A2), A1 \= A2, helper(A1, TempAu, FoundA1), FoundA1 == 0, helper(A2, TempAu, FoundA2), FoundA2 == 0, helper(X, TempAr, FoundX), FoundX == 0, append(TempAu, [A1, A2], NewAu), append(TempAr, [X], NewAr), Articles = NewAr, Authors = NewAu.
+
+dist(A1, A2, MaxDist, Authors, Articles, TempAu, TempAr) :- MaxDist > 1, articleAuthor(X, A1), articleAuthor(X, TempA), helper(X, TempAr, FoundX), FoundX == 0, helper(A1, TempAu, FoundA1), FoundA1 == 0, Dist is MaxDist - 1, append(TempAu, [A1], NewAu),  append(TempAr, [X], NewAr), dist(TempA, A2, Dist, Authors, Articles, NewAu, NewAr).
+dist(A1, A2, MaxDist, Authors, Articles, TempAu, TempAr) :- MaxDist > 1, articleAuthor(X, A1), Dist is MaxDist - 1, dist(A1, A2, Dist, Authors, Articles, TempAu, TempAr).
 
 
+helper(Item, List, Found) :- help(Item, List, X, 0), Found = X.
 
-%%%%% SECTION: collabDist
-% Put your rules for collabDist in this section 
-collabDist(X, Y, 0) :- X==Y, articleAuthor(Z, X).
-collabDist(X, Y, 1) :- articleAuthor(Z, X), articleAuthor(Z, Y).
-collabDist(X, Y, Z) :- Z > 1, articleAuthor(K,X), articleAuthor(K, L), M is Z - 1, collabDist(L, Y, M).
+help(Item, [], Found, 0) :- Found = 0.
+help(Item, [H|_], Found, 0) :- H == Item, Found = 1. 
+help(Item, [H|T], Found, 0) :- H \= Item, help(Item, T, Found, 0).
