@@ -3,7 +3,7 @@
 %
 %%%%%
 %%%%% NAME: Riddhima Garg
-%%%%% NAME: Piraveen Daya
+%%%%% NAME: Piraveen Dayananthan
 %%%%% NAME:
 %
 % Add the required rules in the corresponding sections. 
