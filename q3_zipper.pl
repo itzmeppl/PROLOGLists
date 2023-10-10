@@ -19,8 +19,8 @@ zipper([], L2, [Zipper|L2]).
 zipper(L1, [], [Zipper|L1]).
 
 
-l1zip([], L2, append(Zipper, [L2], Result)).
-l1zip(L1, [], append(Zipper, [L1], Result)).
+l1zip([], L2, [Zipper|L2]).
+l1zip(L1, [], [Zipper|L1]).
 l1zip([], [], Zipper).
 
 
