@@ -15,24 +15,9 @@
 %%%%% SECTION: zipper
 %%%%% Predicate definition: zipper(List1, List2, Zipper)
 
-zipper([], L2, [Zipper|L2]).
-zipper(L1, [], [Zipper|L1]).
 
+zipper(List1, [], Res) :- Res = List1.
+zipper([], List2, Res) :- Res = List2.
 
-zipper([H1|T1], [H2|T2], Zip) :- Newzip = [H1, H2], zipHelper(T1,T2, Newzip).
-
-zipHelper([], L2, [Zipper|L2]).
-zipHelper(L1, [], [Zipper|L1]).
-zipHelper([], [], Zipper).
-
-zipHelper([H1|T1], [H2|T2], Zip) :- append(Zip, [H1,H2], Newzip), zipHelper(T1, T2, Newzip). 
-
-
-
-
-
-%zipper([H1|T1], [H2|T2], Zipper) :- Newzip is [H1 | H2], zipHelper(T1, T2, Newzip).
-%zipHelper([H1|T1], [H2|T2], Zipper) :- Newzip is [Zipper | [H1, H2]], zip(T1, T2, Newzip).
-
-
+zipper([H|T], [H1|T1], [HR, HR2|TR]) :- H = HR, H1 = HR2, zipper(T, T1, TR).
 
