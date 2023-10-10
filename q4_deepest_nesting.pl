@@ -15,14 +15,14 @@
 %%%%% SECTION: deepestNesting
 %%%%% Predicate definition: deepestNesting(List, Depth)
 
- %func([H|T], Head) :- helper2(H, Head).
+deepestNesting([], Depth) :- Depth = 0.
+deepestNesting(A, Depth) :- not is_list(A), Depth = 0.
+deepestNesting(List, Depth) :- nesting(List, X, 1,1), Depth = X.
 
-%helper2([H|T], Head):- Head = H.
-%header2([], 0).
-
-
-dN([], 0).
-dN([H],0).
+nesting([], MaxDepth, PrevDepth, CurrDepth) :- max(PrevDepth, CurrDepth, New), MaxDepth = New.
+nesting([H|T], MaxDepth, PrevDepth, CurrDepth) :- not is_list(H), nesting(T, MaxDepth, PrevDepth, CurrDepth).
+nesting([H|T], MaxDepth, PrevDepth, CurrDepth) :- is_list(H), H \= [], nesting(H, X, 1, 1), New is CurrDepth + X, max(New, PrevDepth, Res), nesting(T, MaxDepth, Res, CurrDepth).
+nesting([H|T], MaxDepth, PrevDepth, CurrDepth) :- is_list(H), H == [], nesting(H, X, 1, 1), New is CurrDepth + X - 1, max(New, PrevDepth, Res), nesting(T, MaxDepth, Res, CurrDepth).
 dN([H|T], 1).
 
 dN([H|T], MaxDepth, Acc) :- not is_list(H), dN(T,Acc).
