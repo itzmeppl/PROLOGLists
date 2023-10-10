@@ -15,3 +15,9 @@
 %%%%% SECTION: increasingPowerSum
 %%%%% Predicate definition: increasingPowerSum(List, Power, PowerInc, Sum)
 
+increasingPowerSum([], _, _, Sum) :- Sum = 0.
+increasingPowerSum(List, Pow, PowInc, Sum) :- helper(List, Pow, PowInc, Sum, 0).
+
+helper([X], Pow, PowInc, Sum, Acc) :- Y is X^Pow, Sum is Y + Acc.
+
+helper([H|T], Pow, PowInc, Sum, Acc) :- Y is H^Pow, Tot is Acc + Y, NewPow is Pow + PowInc, helper(T, NewPow, PowInc, Sum, Tot).
